@@ -2,20 +2,22 @@
 
 ## 📌 Overview
 
-This project focuses on detecting **Alzheimer’s Disease** using **MRI brain images** and **Deep Learning techniques**. The system classifies MRI scans into categories such as *Non-Demented* and *Moderate Demented* using a Convolutional Neural Network (CNN).
+This project focuses on detecting **Alzheimer’s Disease** using **MRI brain images** and **Deep Learning (CNN)** techniques. The system classifies MRI scans into:
 
-The project follows a **modular machine learning pipeline architecture**, including data preprocessing, model training, evaluation, and deployment readiness.
+- Non-Demented  
+- Moderate Demented  
+
+It also includes **Grad-CAM visualization** for explainability.
 
 ---
 
 ## 🚀 Project Objectives
 
-- Develop an AI-based system for Alzheimer’s detection  
-- Analyze MRI brain images  
-- Build a CNN-based classification model  
-- Perform preprocessing and feature extraction  
-- Evaluate model performance using standard metrics  
-- Create a scalable and reusable ML pipeline  
+- Build an AI-based Alzheimer’s detection system  
+- Perform MRI image classification using CNN  
+- Implement a modular ML pipeline  
+- Add explainable AI (Grad-CAM)  
+- Generate training performance graphs  
 
 ---
 
@@ -32,37 +34,41 @@ Given an MRI brain scan, predict whether the patient is:
 ```
 AI-Health-Diagnosis/
 │
-├── artifacts/                 
-│   ├── processed_data/
+├── dataset/                     # Raw dataset (NOT uploaded to GitHub)
+│   ├── NonDemented/
+│   └── ModerateDemented/
+│
+├── artifacts/                  # Generated files
 │   ├── train_data/
 │   ├── test_data/
 │   ├── model.h5
-│   └── preprocessor.pkl
+│   ├── training_plot.png
+│   └── gradcam_output.jpg
 │
-├── notebooks/                 
+├── notebooks/
 │   ├── EDA.ipynb
-│   ├── Model_Training.ipynb
+│   └── Model_Training.ipynb
 │
 ├── src/
 │   ├── components/
-│   │    ├── data_ingestion.py
-│   │    ├── data_preprocessing.py
-│   │    └── model_training.py
+│   │   ├── data_ingestion.py
+│   │   ├── data_preprocessing.py
+│   │   └── model_training.py
 │   │
 │   ├── pipeline/
-│   │    └── training_pipeline.py
+│   │   └── training_pipeline.py
 │   │
 │   ├── utils.py
 │   ├── logger.py
 │   └── exception.py
 │
-├── app/                      
-│   ├── app.py
-│   └── templates/
+├── app/
+│   └── app.py                  # Streamlit app
 │
-├── venv/
+├── data_split.py              # Dataset split script
 ├── requirements.txt
 ├── setup.py
+├── .gitignore
 └── README.md
 ```
 
@@ -75,123 +81,105 @@ AI-Health-Diagnosis/
 - NumPy, Pandas  
 - OpenCV  
 - Matplotlib, Seaborn  
-- Flask / Streamlit  
+- Streamlit  
 
 ---
 
-## 📊 Dataset Used
+## 📊 Dataset
 
-### ✅ OASIS MRI Dataset
-- Open-access brain MRI dataset  
-- Contains Normal and Demented subjects  
-- Used for research in Alzheimer’s detection  
+Download dataset from:  
+👉 https://www.kaggle.com/datasets/aryansinghal10/alzheimers-multiclass-dataset-equal-and-augmented  
 
-🔗 https://www.oasis-brains.org  
+### Use only:
+- NonDemented  
+- ModerateDemented  
 
-### ✅ Kaggle Alzheimer MRI Dataset
-- Preprocessed MRI images  
-- Multi-class labeled dataset  
-- Used for CNN training  
+### Place it inside:
 
-🔗 https://www.kaggle.com  
+```
+dataset/
+├── NonDemented/
+├── ModerateDemented/
+```
 
 ---
 
-## 🔄 ML Pipeline Workflow
+## 🔄 Workflow
 
-### 1. Data Ingestion
-- Load MRI dataset  
-- Split into training and testing sets  
+### 1. Data Splitting
 
-### 2. Data Preprocessing
-- Resize images  
-- Normalize pixel values  
-- Data augmentation (rotation, flipping)  
+Split dataset into train/test:
 
-### 3. Model Training
-- Build CNN architecture  
-- Train model using training dataset  
-- Evaluate on validation dataset  
-
-### 4. Model Evaluation
-- Accuracy  
-- Precision, Recall  
-- Confusion Matrix  
-- Grad-CAM visualization  
+```bash
+python data_split.py
+```
 
 ---
 
-## 🧪 How to Run the Project
-
-### Step 1: Clone the repository
+### 2. Model Training
 
 ```bash
-git clone <your-repo-link>
-cd AI-Health-Diagnosis
+python -m src.pipeline.training_pipeline
 ```
 
-### Step 2: Create & activate virtual environment
+---
+
+### 3. Outputs Generated
+
+```
+artifacts/
+├── model.h5
+├── training_plot.png
+├── gradcam_output.jpg
+```
+
+---
+
+### 4. Run Web App
 
 ```bash
-python -m venv venv
-venv\Scripts\activate
+streamlit run app/app.py
 ```
 
-### Step 3: Install dependencies
+---
 
-```bash
-pip install -r requirements.txt
-```
+## 📊 Features
 
-### Step 4: Run the pipeline
-
-```bash
-python -m src.components.data_ingestion
-```
+- CNN-based MRI classification  
+- Grad-CAM explainability  
+- Training accuracy & loss graphs  
+- Modular pipeline structure  
+- Deployment-ready UI  
 
 ---
 
 ## 📈 Sample Output
 
-```
-artifacts/
- ├── processed_data/
- ├── train_data/
- ├── test_data/
- ├── model.h5
- └── preprocessor.pkl
-```
+- Prediction: Non-Demented / Moderate Demented  
+- Confidence score  
+- Grad-CAM heatmap visualization  
 
 ---
 
-## 📌 Key Highlights
+## ⚠️ Important Notes
 
-- Deep Learning-based medical diagnosis  
-- CNN architecture for MRI classification  
-- Modular ML pipeline design  
-- Explainable AI using Grad-CAM  
-- Scalable and deployment-ready  
-
----
-
-## ⚠️ Common Issues & Fixes
-
-| Issue | Solution |
-|------|---------|
-| Module not found | Activate virtual environment |
-| GPU not detected | Install CUDA & cuDNN |
-| Slow training | Use smaller image size |
-| Model not saving | Check artifacts path |
+- Dataset is NOT uploaded to GitHub  
+- Use `.gitignore` to exclude:
+  ```
+  dataset/
+  artifacts/
+  venv/
+  ```
 
 ---
 
 ## 📚 Future Improvements
 
 - Multi-class classification  
-- CT/PET scan integration  
-- Web deployment  
-- Cloud inference  
-- Explainable AI enhancements  
+- CT/PET integration  
+- Cloud deployment  
+- Model optimization  
+- Real-time hospital integration  
 
 ---
 
@@ -204,10 +192,10 @@ B.Tech CSE (AIML)
 
 ## ⭐ Acknowledgements
 
-- OASIS Dataset  
 - Kaggle Dataset  
+- OASIS Dataset  
 - TensorFlow Documentation  
-- Research papers  
+- Research papers on Alzheimer’s detection  
 
 ---
 
